@@ -1,0 +1,8 @@
+Activity Status:
+0- Pending
+1-Save
+2-Withdraw.
+3-Revert Back
+4-Submit
+5-Rejected
+6-Approved

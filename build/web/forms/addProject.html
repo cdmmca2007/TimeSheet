@@ -1,0 +1,79 @@
+<div id="dialog-form" class="project-form form1">
+	 <div class="form-top-panel">
+            <img src="resources/images/tms/ack40.png">
+            <div class="form-title-text">Create Project</div>
+            <p class="validateTips"><span class="required_show">*</span> indicates fields are required.</p>
+         </div>
+<div class="form-view">
+	<form>
+            <div class="left" style="width: 50%">
+                <div class="form-item" data-option="{'required':true}">
+                    <div class="form-label"><label>Name</label><span class="required_show">*</span></div>
+                    <div class="form-value"><input type="text" id="projectName" name="projectName" class="text" /></div>
+                </div>
+                <div class="form-item">
+                    <div class="form-label"><label>Project Code</label></div>
+                    <div class="form-value"><input type="text" id="projectCode" name="projectCode" value="" class="text" /></div>
+                </div>
+                <div class="form-item" data-option="{required:true,type:'dd'}">
+                    <div class="form-label"><label>Project Manager</label><span class="required_show">*</span></div>
+                    <div class="form-value"><input type="text" id="projectManager" name="projectManager" value="" class="dd" /></div>
+                </div>
+                <div class="form-item">
+                    <div class="form-label"><label>Description</label></div>
+                    <div class="form-value"><textarea id="description" name="description"  class="textarea" ></textarea></div>
+                </div>
+                <div class="form-item" data-option="{required:true,type:'datepicker'}">
+                    <div class="form-label"> <label>Start Date</label><span class="required_show">*</span></div>
+                    <div class="form-value"><input type="text" id="startDate" name="startDate" class="dtpicker startdate" /></div>
+                </div>
+                <div class="form-item" data-option="{required:true,type:'datepicker'}">
+                    <div class="form-label"><label>End Date</label><span class="required_show">*</span></div>
+                    <div class="form-value"><input type="text" id="endDate" name="endDate" value="" class="dtpicker enddate" /></div>
+                </div>
+                <div class="form-item" data-option="{required:true}">
+                    <div class="form-label"><label>Client Name</label><span class="required_show">*</span></div>
+                    <div class="form-value"><input type="text" id="clientName" name="clientName" class="text" /></div>
+                </div>
+                <div class="form-item">
+                    <div class="form-label"><label>Project Value</label></div>
+                    <div class="form-value"><input type="text" id="projectValue" name="projectValue" class="text" /></div>
+                </div>
+            </div>
+            <div class="left" style="width: 50%">
+                 <div class="form-item" data-option="{required:true,type:'dd'}">
+                <div class="form-label"><label >Project Status</label><span class="required_show">*</span></div>
+                <div class="form-value">
+                    <input id="projectStatus" name="projectStatus" class="ui-widget-content" />
+             </div>
+             </div> 
+                <div class="form-item">
+                    <div class="form-label"><label >Project Priority</label></div>
+                    <div class="form-value"><input type="text"  id="projectPriority" name="projectPriority"  class="dd" /></div>
+                </div>
+                <div class="form-item">
+                    <div class="form-label"> <label>Project Type</label></div>
+                    <div class="form-value"><input type="text" id="projectType" name="projectType" class="dd" /></div>
+                </div>
+                <div class="form-item" id="activities_div" style="visibility: hidden">
+                    <div class="form-label"><label>Activities</label></div>
+                    <div class="form-value"><input type="text" id="activities" name="activities" value="" class="dd" /></div>
+                </div>
+                <div class="form-item" id="resources_div" style="visibility: hidden">
+                    <div class="form-label"><label>Resources</label></div>
+                    <div class="form-value"><input type="text" id="resources" name="resources" value="" class="dd"/></div>
+                </div>
+                
+            </div>
+	</form>
+</div>
+</div>
+<div  class="project-form form2" style="display: none">
+	<div class="form-top-panel">
+	<p class="validateTips">All form fields are required.</p>
+         </div>
+    <div class="form-view">
+        <table id="resourcemapping"></table>
+    </div>
+        
+</div>

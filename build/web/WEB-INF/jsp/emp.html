@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="language" content="en" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Track System</title>
+	<link rel="stylesheet" type="text/css" href="scripts/lib/jquery/themes/layout-default-latest.css" />
+	<link href="scripts/lib/jquery/themes/cupetino/jquery-ui.css" rel="stylesheet" type="text/css"/>
+	<link href="resources/css/jquery.dataTables.css" rel="stylesheet" type="text/css"/>
+        <link href="resources/css/style.css" rel="stylesheet" type="text/css" media="all"/>
+        <link href="resources/css/select2.css" rel="stylesheet" type="text/css"/>
+        <link href="resources/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+	 <script type="text/javascript">
+		/*<![CDATA[*/
+			function _cC(){ _u = _gC('zrole'); if (!_u || _u == "") _r('login.html');}
+			function _gC(_c){ _ck = document.cookie; if (_ck.length > 0) { _s = _ck.indexOf(_c + "="); if (_s != -1) { _s = _s + _c.length + 1; _e = _ck.indexOf(";", _s); if (_e == -1) _e = _ck.length; return unescape(_ck.substring(_s, _e));}} return "";}
+			function _r(url){ window.top.location.href = url;}
+			_cC();
+		/*]]>*/
+    </script> 
+</head>
+<body style="padding: 0 0px 10px 0px">
+<div id="main-div" class="ui-layout-north ui-state-active" style="display: none;">
+    <div class="left"><img src="resources/images/clogo.png" style="width: 120px;background-color: white;"></div>
+	<div id="top-link" style="float: right; margin-right: 30px;">
+<!--            <span class="alert top-link" title="Alert">&nbsp;</span>
+            <span class="notification top-link" title="Notification">&nbsp;</span>
+            <span class="singout top-link">&nbsp;</span>-->
+            <span class="link-username">&nbsp;</span><span class="user-menu ui-button-icon-primary ui-icon ui-icon-triangle-1-s"></span>
+	</div>
+</div>
+
+<div id="tabs_div" class="ui-layout-center" style="display: none;"> 
+	<UL style="-moz-border-radius-bottomleft: 0; -moz-border-radius-bottomright: 0;">
+		<LI><A href="#Tab_Dashboard"><SPAN>Dashboard</SPAN></A></LI>
+	</UL>
+	<div id="Tab_Dashboard"> 
+
+        </div>
+</div>
+<div id="west-panel" class="ui-layout-west" style="display: none;">
+	<h3 class="ui-widget-header">Calendar</h3>
+	<div class="ui-layout-content">
+            <div id="datepicker"></div>
+        </div>
+        <div id="navcontainer" class="main-menu navitem-list ui-widget-content ui-state-hover">
+            <ul class="nav-menu">
+                <li id="link_Dashboard" class="hidden"><a  href="#" title="Dashboard" class="dashboard tab-link"><span class="body">Dashboard</span></a></li>     
+                <li id="link_UserManagement" class="hidden"><a  href="#" title="User Management " class="user tab-link"><span class="body">User Management</span></a></li> 
+                <li id="link_ProjectManagement" class="hidden"><a  href="#" title="Project Management " class="project tab-link"><span class="body">Project Management</span></a></li>
+                <li id="link_AllTimesheet" class="hidden"><a  href="#" title="Timesheet Report" class="timesheet tab-link"><span class="body">Timesheet Management</span></a></li>
+                <li id="link_TimesheetReport" class="hidden"><a  href="#" title="Timesheet Report" class="timesheet tab-link"><span class="body">Timesheet Report</span></a></li>  
+                <li id="link_MyTimesheet" class="hidden"><a  href="#" title="Timesheet Report" class="timesheet tab-link"><span class="body">My Timesheet</span></a></li>       
+            </ul>
+	</div>
+</div>
+<!--<div class="ui-layout-south ui-widget-content ui-state-error" style="display: none;"> South Pane </div>-->
+<div id="modal-win" style="display: none;">
+    <div class="modal-inner-panel"></div>
+</div>
+<div id="load-mask-body" class="mask-hidden load-mask">
+    <div class="load-mask-inner">
+	<div class="load-msg">Loading, Please wait...</div>
+    </div>
+</div> 
+<div class="modal-mask ui-widget-overlay" style="display: none;"></div>
+<div style="display: none;"><form id="downloadForm" action="service/download"><input name="data" /></form></div>
+<div style="display: none;"><form id="downloadFormPMU" action="service/downloadPMU"><input name="data" /></form></div>
+ <div class="usermenu-div modal-win dowload-option" style="display:none;">
+    <div class="triangle">
+    </div> 
+    <div class="info-inner">
+     <div class="holder">
+        <div class="info-content">
+        		<div class="menu-options">
+                   <ul>
+                       <li class="chnage-password" title="Click here to change your password."><a href="#">Change Password</a></li>
+                       <li class="signout" title="Click here to logout."><a href="#">Sign Out</a></li>
+                   </ul>
+              	</div>
+        </div>
+       </div>
+     </div>
+ </div>
+
+        <script src="scripts/app/util/Constants.js"></script>
+        <script data-main="scripts/app.js" src="scripts/require.js"></script>
+        
+
+</body>
+</html> 

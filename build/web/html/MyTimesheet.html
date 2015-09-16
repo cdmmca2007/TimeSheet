@@ -1,0 +1,53 @@
+<div id="myTimesheet" class="ui-layout-one timesheet-layout mytimesheet"> 
+             <table id="timesheet-grid" class="timesheet-grid"></table>
+</div>
+<div id="MyTimesheet-Editor" class="ui-layout-center mytimesheet  x-grid-body">
+    <div class='timesheet-ed no-datapdisplay'> 
+        Please select a row to display
+    </div>
+                <div class="dynamic mytimesheet  border-box" style="display: none;">
+                    
+                    <table class="timesheet-editor" cellpadding="0" width="100%" cellspacing="0" border="0">
+                        <thead><tr>
+                                <th class="ui-state-default cols col-1" colspan="2">Action</th>
+                                <th  class="ui-state-default cols col-2">Project</th>
+                                <th  class="ui-state-default cols col-3">Activity</th>
+                                <th  class="ui-state-default cols col-4">Location</th>
+                                <th class="ui-state-default cols col-5">Description</th>
+                                <th class="ui-state-default cols col-6">Mon</th>
+                                <th class="ui-state-default cols col-7">Tues</th>
+                                <th class="ui-state-default cols col-8">Wed</th>
+                                <th class="ui-state-default cols col-9">Thu</th>
+                                <th class="ui-state-default cols col-10">Fri</th>
+                                <th class="ui-state-default cols col-11">Sat</th>
+                                <th class="ui-state-default cols col-12">Sun</th>
+                                <th class="ui-state-default cols col-13">Total</th>                   
+                            </tr></thead>       
+                        <tbody></tbody>
+                        <tfoot><tr>
+                                <td colspan="6">Total</td>
+                                <td class="total mon-total">0</td>
+                                <td class="total tues-total">0</td>
+                                <td class="total wed-total">0</td>
+                                <td class="total thurs-total">0</td>
+                                <td class="total fri-total">0</td>
+                                <td class="total sat-total">0</td>
+                                <td class="total sun-total">0</td>
+                                <td class="total all-total">0</td>
+                                
+                            </tr></tfoot>
+                    </table>
+                    <div class="comment-div"><label>Comment:</label><textarea name="comment" style="width: 80%;"></textarea></div>
+                    <div class="button-container center-aln"></div>
+              
+                </div>
+                <div class="actionHistory" style="display: none;">
+                    <div class="ui-widget-header" style="padding: 6px 7px;"><span class="ui-dialog-title">Action History</span></div>
+                    <div class="action-history  border-box"></div>
+                </div>
+            </div>
+<script>
+//    $("#myTimesheet").parent().layout();
+    var timeesheet = new Timeesheet("#myTimesheet table","#MyTimesheet-Editor",false);
+    
+</script>

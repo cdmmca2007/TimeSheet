@@ -1,0 +1,142 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+ 
+<!--         <bean id="emailDAO" class="com.dlab.ts.dao.EmailDAO" >
+             <property name="dataSource" ref="dataSource" />
+             <property name="sqlQueries" ref="sqlQueries" />
+         </bean>-->
+<!--	<bean id="mailService" class="com.dlab.ts.service.impl.MailServiceImpl">
+            <property name="mailSender" ref="mailSender"/>
+            <property name="simpleMailMessage" ref="simpleMailMessage"/>
+            <property name="emailDAO" ref="emailDAO"/>
+        </bean>-->
+        
+<!--        <bean id="notificationDao" class="com.dlab.ts.dao.NotificationDao" >
+            <property name="dataSource" ref="dataSource" />
+            <property name="sqlQueries" ref="sqlQueries" />
+        </bean>-->
+<!--        <bean id="notificationService" class="com.dlab.ts.service.impl.NotificationServiceImpl" >
+                <property name="notificationDao" ref="notificationDao" />
+                 <property name="mailService" ref="mailService" />
+        </bean>-->
+        <bean id="timesheetTask" class="com.dlab.ts.jobs.TimesheetTask" >
+<!--             <property name="notificationService" ref="notificationService" />-->
+        </bean>
+         
+                
+<!--	<bean id="runAnotherTask" class="com.test.job.RunAnotherTask" />-->
+ 
+	<!-- Spring Quartz -->
+	<bean name="runMeJobCreateTS" class="org.springframework.scheduling.quartz.JobDetailBean">
+ 		<property name="jobClass" value="com.dlab.ts.jobs.RunMeJobCreateTS" />
+ 		<property name="jobDataAsMap">
+		  <map>
+			<entry key="timesheetTask" value-ref="timesheetTask" />
+		  </map>
+		</property>
+	</bean>
+        
+        <!-- Spring Quartz -->
+	<bean name="jobTSumbissionAlert" class="org.springframework.scheduling.quartz.JobDetailBean">
+ 		<property name="jobClass" value="com.dlab.ts.jobs.JobTSumbissionAlert" />
+ 		<property name="jobDataAsMap">
+		  <map>
+			<entry key="timesheetTask" value-ref="timesheetTask" />
+		  </map>
+		</property>
+	</bean>
+        
+        <!-- Spring Quartz -->
+	<bean name="jobTsApproveAlert" class="org.springframework.scheduling.quartz.JobDetailBean">
+ 		<property name="jobClass" value="com.dlab.ts.jobs.JobTsApproveAlert" />
+ 		<property name="jobDataAsMap">
+		  <map>
+			<entry key="timesheetTask" value-ref="timesheetTask" />
+		  </map>
+		</property>
+	</bean>
+        <!-- Spring Quartz -->
+	<bean name="jobTsAutoApprove" class="org.springframework.scheduling.quartz.JobDetailBean">
+ 		<property name="jobClass" value="com.dlab.ts.jobs.JobTsAutoApprove" />
+ 		<property name="jobDataAsMap">
+		  <map>
+			<entry key="timesheetTask" value-ref="timesheetTask" />
+		  </map>
+		</property>
+	</bean>
+ 
+	<!-- 
+	<bean id="runMeJob" 
+            class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean"> 
+		<property name="targetObject" ref="timesheetTask" /> 
+		<property name="targetMethod" value="printMe" /> 
+	</bean> 
+	-->
+ 
+	<!-- Simple Trigger, run every 5 seconds -->
+<!--	<bean id="simpleTrigger" 
+                class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+ 
+		<property name="jobDetail" ref="runMeJob1" />
+		<property name="repeatInterval" value="5000" />
+		<property name="startDelay" value="1000" />
+ 
+	</bean>-->
+ 
+	<!-- Cron Trigger, run every 12:05 am -->
+	<bean id="cronTriggerCreateTS" 
+                class="org.springframework.scheduling.quartz.CronTriggerBean">
+ 
+		<property name="jobDetail" ref="runMeJobCreateTS" />
+		<property name="cronExpression" value="0 0 1 * * ?" />
+ 
+	</bean>
+        <!-- Cron Trigger, run every thursday 10 am and friday 10 am -->
+	<bean id="cronTriggerAlertSubmission" 
+                class="org.springframework.scheduling.quartz.CronTriggerBean">
+ 
+		<property name="jobDetail" ref="jobTSumbissionAlert" />
+		<property name="cronExpression" value="0 0 10 * * ?" />
+ 
+	</bean>
+        <!-- Cron Trigger, run every fri 11 am -->
+	<bean id="cronTriggerAlertApprove" 
+                class="org.springframework.scheduling.quartz.CronTriggerBean">
+ 
+		<property name="jobDetail" ref="jobTsApproveAlert" />
+		<property name="cronExpression" value="0 0 10 * * ?" />
+ 
+	</bean>
+        <!-- Cron Trigger, run every frid 5 pm -->
+	<bean id="cronTriggerAutoApprove" 
+                class="org.springframework.scheduling.quartz.CronTriggerBean">
+ 
+		<property name="jobDetail" ref="jobTsAutoApprove" />
+		<property name="cronExpression" value="0 0 10 * * ?" />
+ 
+	</bean>
+
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="jobDetails">
+			<list>
+				<ref bean="runMeJobCreateTS" />
+				<ref bean="jobTSumbissionAlert" />
+                                <ref bean="jobTsApproveAlert" />
+				<ref bean="jobTsAutoApprove" />
+			</list>
+		</property>
+ 
+		<property name="triggers">
+			<list>
+				<ref bean="cronTriggerCreateTS" />
+				<ref bean="cronTriggerAlertSubmission" />
+                                <ref bean="cronTriggerAlertApprove" />
+				<ref bean="cronTriggerAutoApprove" />
+                                
+			</list>
+		</property>
+	</bean>
+ 
+</beans>
