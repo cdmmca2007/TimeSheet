@@ -2,7 +2,7 @@ window.projectdet=null;
 window.projectdet1=null;
 
 (function(self){
-    var dataTable =null; 
+   var dataTable =null; 
    function initCombo(name,q,op){
         $.ajaxService({
             url:'service/generic/'+q,
@@ -21,7 +21,7 @@ window.projectdet1=null;
                 $.ajaxService({
                     url:'service/project/'+d.projectId,
                     success: function(res){
-                        console.log(res)
+                        console.log(res);
                         var data=res[0];
                         Tabs.push(data);
                         var id = "ProjDetail_"+data.projectId;
@@ -74,8 +74,7 @@ window.projectdet1=null;
     }
     function showCreateForm(data){
         var win = $("#modal-win");
-        $("#modal-win .modal-inner-panel").load("forms/addProject.html",
-            function(){
+        $("#modal-win .modal-inner-panel").load("forms/addProject.html",function(){
                 initCombo('resources','GET_RESOURCE',{
                     placeholder:"Select Resources",
                     multiple:true,
@@ -128,12 +127,13 @@ window.projectdet1=null;
                   $("#modal-win #projectValue").val(data.projectvalue);
                };
             });
-
-        var  buttons= [{
-            text:"Save",
-            //'class':'btn-primary',
-            click: function() {
-                if(buttons[0].text=="Save"){
+        $("#modal-win").dialog({
+            title:data?"Edit Project Details":"Add New Project",
+            modal:true,
+            width:800,
+            height:420,
+            buttons: {
+               "Save":function() {
                     var valid =isValidForm("#dialog-form");
                     if(valid.valid){
                         var obj = {};
@@ -153,24 +153,37 @@ window.projectdet1=null;
                             data:JSON.stringify(obj),
                             contentType: "application/json",
                             dataType:'json',
-                            success: function(data1){
-                                if(data!=null)
-                                    jQuery.MsgBox.show({
-                                        title:'Info',
-                                        msg :'Project detail updated Successfully',
-                                        icon:1,
-                                        width:400
-                                    });
-                                else
-                                    jQuery.MsgBox.show({
+                            success: function(res){
+                               
+                                if(data==null) { 
+                                   
+                                   if(res!=null) {  
+                                       jQuery.MsgBox.show({
                                         title:'Info',
                                         msg :'Project detail added Successfully',
                                         icon:1,
                                         width:400
                                     });
-                           
-                                reloadGrid();
-                           
+                                   } 
+                                   else {
+                                   jQuery.MsgBox.show({
+                                    title:'Error',
+                                     msg :'Unexpected Error occured , Please contact Technical Admin',
+                                     icon:4,
+                                     width:400
+                                   }); 
+                                   }
+                               }
+                                else{
+                                       jQuery.MsgBox.show({
+                                        title:'Info',
+                                        msg :'Project detail updated Successfully',
+                                        icon:1,
+                                        width:400
+                                    });
+                                 
+                               }
+                               reloadGrid();      
                             }
                         });
                     }else{
@@ -181,20 +194,12 @@ window.projectdet1=null;
                                  width:400
                          });
                     }
+                
+                },
+                    Cancel: function() {
+                        $( this ).dialog( "close" );
+                    }
                 }
-            }
-        },{
-            text:"Cancel",
-            click: function() {
-                $( this ).dialog( "close" );
-            }
-        }];   
-        $("#modal-win").dialog({
-            title:data?"Edit Project Details":"Add New Project",
-            modal:true,
-            width:800,
-            height:420,
-            buttons:buttons
         });
     };
     function setResurceFrm(data){
@@ -223,7 +228,6 @@ window.projectdet1=null;
         });
     }
     self.Proect = function(){
-       var dataTable; 
        
        dataTable=$("#project-grid").dataTable({
             //            'dom':'<"toolbar">frtip',
@@ -412,12 +416,21 @@ window.projectdet1=null;
                         type:'DELETE',
                         dataType:'json',
                         success: function(res){
+                            if(res!=null) {
                             jQuery.MsgBox.show({
                                 title:'Info',
-                                 msg :'Error in Loading page.Please contact Administrator',
+                                 msg :'Project Deleted Successfully',
                                  icon:1,
                                  width:400
                          });
+                         }else{
+                            jQuery.MsgBox.show({
+                                title:'Info',
+                                 msg :'Error in Deleting Project details.Please contact Administrator',
+                                 icon:1,
+                                 width:400
+                         }); 
+                         }
                          reloadGrid();
                         }
              });

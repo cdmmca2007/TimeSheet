@@ -45,7 +45,12 @@ function getProject(projId){
     }
 }
 function getProjActivity(projId){
-    return getProject(projId).activity;
+    //return getProject(projId).activity;
+    var proj=getProject(projId);
+    if(proj!=null)
+      return proj.activity;
+    else
+      return {};     
 }
 
 function getUsersDateFormate(date){

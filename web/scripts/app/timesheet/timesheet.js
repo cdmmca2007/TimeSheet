@@ -148,6 +148,7 @@
             })
         }).on("change", function(combo){
             var proj = getProjActivity(combo.val);
+            if(proj!=null && proj.length>0) {
             var data = proj.map(function(item){
                 return {
                     id:item.activityid,
@@ -161,6 +162,7 @@
                 dropdownAutoWidth : true,
                 placeholder:"Select Activity"
             });
+            }
         });
          row.find(".activity-drop-down").select2({
             data:[],
@@ -271,7 +273,8 @@
                 };         
             })
         }).on("change", function(combo){
-            var proj = getProjActivity(combo.val);
+           var proj = getProjActivity(combo.val);
+           if(proj!=null && proj.length>0) { 
             var data = proj.map(function(item){
                 return {
                     id:item.activityid,
@@ -283,6 +286,7 @@
                 data:data,
                 dropdownAutoWidth : true
             });
+           }
         });
          row.find(".activity-drop-down").select2({
             data:[]
