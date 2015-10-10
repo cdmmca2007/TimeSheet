@@ -99,7 +99,6 @@ function downloadPMU(data){
     var json={
        data:data
     };
-    alert(data.projectId);
     $("#downloadFormPMU input").val(data.projectId);
     $("#downloadFormPMU").attr("method","POST")
     .submit();
@@ -110,6 +109,27 @@ function downloadProgressReport(data){
     };
     $("#downloadPR input").val(data.projectId);
     $("#downloadPR").attr("method","POST")
+    .submit();
+}
+
+function downloadUserListExcel(column,data){
+    
+    //data.
+    
+    var json={
+       column: column,
+       data:data
+    };
+    $("#downloadFromUserList input").val(JSON.stringify(json));
+    $("#downloadFromUserList").attr("method","POST").submit();
+}
+function downloadProjectListExcel(column,data){
+    var json={
+       column: column,
+       data:data
+    }
+    $("#downloadFromProjectList input").val(JSON.stringify(json));
+    $("#downloadFromProjectList").attr("method","POST")
     .submit();
 }
 

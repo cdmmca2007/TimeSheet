@@ -418,8 +418,39 @@ ALTER TABLE users ADD COLUMN bsbno VARCHAR(30)  ;
 ALTER TABLE users ADD COLUMN homephone VARCHAR(30)  ;
 ALTER TABLE users ADD COLUMN spousename VARCHAR(30)  ;
 
-ALTER TABLE project ADD COLUMN projectvalue DOUBLE;
+ALTER TABLE project ADD COLUMN projectvalue DOUBLE(10,2);
 
+ALTER TABLE users MODIFY   `baserate` DOUBLE(10,2) DEFAULT NULL;
+ALTER TABLE users MODIFY   `superrate` DOUBLE(10,2) DEFAULT NULL;
+ALTER TABLE timesheetdetail MODIFY mon DECIMAL(10,2);
+ALTER TABLE timesheetdetail MODIFY tues DECIMAL(10,2); 
+ALTER TABLE timesheetdetail MODIFY wed DECIMAL(10,2); 
+ALTER TABLE timesheetdetail MODIFY thurs DECIMAL(10,2);  
+ALTER TABLE timesheetdetail MODIFY fri DECIMAL(10,2);  
+ALTER TABLE timesheetdetail MODIFY sat DECIMAL(10,2);  
+ALTER TABLE timesheetdetail MODIFY sun DECIMAL(10,2);  
+ALTER TABLE project MODIFY projectvalue DOUBLE(10,2);  
+
+CREATE TABLE `buglist` (
+  `bugid` varchar(40) NOT NULL,
+  `title` varchar(1000) default NULL,
+  `description` varchar(1000) default NULL,
+  `expected` varchar(1000) default NULL,
+  `status` varchar(40) default NULL,
+  `priority` varchar(40) default NULL,
+  `createdby` varchar(40) default NULL,
+  `createdon` datetime default NULL,
+  `modifiedby` varchar(40) default NULL,
+  `modifiedon` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  PRIMARY KEY  (`bugid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO properties (id, VALUE) VALUES(6, 'Bug Status');
+INSERT INTO MASTER (id, VALUE, propertyid) VALUES ('10001', 'New-Created',6);
+INSERT INTO MASTER (id, VALUE, propertyid) VALUES ('10002', 'Working-Pending',6);
+INSERT INTO MASTER (id, VALUE, propertyid) VALUES ('10003', 'Resolved-Completed',6);
+
+INSERT INTO mail_template (template_id, NAME, SUBJECT, template, COMMENT, created_by, created_on)	VALUES	(1001,'New Bug Added Notification', 'New Issue Found in Track Apllication', 'Greeting <b>%s</b>,<br>Thank you for Logging new issue in application.<b><br><b>Issue Title :</b> %s <br><b>Logged Date :</b> %s<br><br><p>We have received an email with above details. You will be notified once issue got resolved</p>.<br><br><br><b>TMS Admin</b>', 'Use till UAT', 'ADMIN',CURRENT_DATE);
 
 --------------------------------------------------------------------------------
 

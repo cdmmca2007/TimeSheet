@@ -95,6 +95,8 @@ window.table=null;
                 }
                 else if (status == "Approved"){
                   $nRow.css({"background-color":"yellowgreen"});
+                }else if (status == "Rejected"){
+                  $nRow.css({"background-color":"red"});
                 }
                 
                 return nRow
@@ -126,33 +128,6 @@ window.table=null;
         }
         });
      $("#downLoad").button().on('click',function(){
-         var data=[{
-                 empno:'123',
-                 userName:'Kalesh',
-                 mon:7,
-                 tues:4,
-                 wed:8,
-                 thurs:2,
-                 fri:3,
-                 sat:6,
-                 sun:7,
-                 tot_hour:50,
-                 status:5
-         },{
-                 empno:'123',
-                 userName:'CCDD',
-                 mon:7,
-                 tues:4,
-                 wed:8,
-                 thurs:2,
-                 fri:3,
-                 sat:6,
-                 sun:4,
-                 tot_hour:50,
-                 status:5
-         }
-             
-         ]
          download(columns,dataTable.fnGetData());
          //download(columns,data);
      });   

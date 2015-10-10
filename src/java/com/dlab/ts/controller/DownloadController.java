@@ -1,31 +1,33 @@
 package com.dlab.ts.controller;
 
 import com.dlab.constants.URLMap;
+import com.dlab.session.UserSessionBean;
+import com.dlab.ts.dao.ProjectDao;
+import com.dlab.ts.dao.ReportDownloadExcelDAO;
+import com.dlab.ts.dao.UserDao;
 import com.dlab.ts.model.ExcelModel;
+import com.dlab.ts.model.PMUReport;
+import com.dlab.ts.model.ProgressReport;
 import com.dlab.ts.service.DownloadService;
+import com.dlab.ts.service.ProjectService;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipOutputStream;
-import com.dlab.ts.model.PMUReport;
-import com.dlab.ts.model.ProgressReport;
-import com.dlab.ts.service.ProjectService;
-import java.util.HashMap;
-
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import jxl.Workbook;
 import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 import org.codehaus.jackson.map.ObjectMapper;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,6 +47,13 @@ public class DownloadController {
     private DownloadService downloadService;
     @Autowired
     private ProjectService projectService;
+    @Autowired
+    private UserDao userDao;
+    @Autowired
+    private ProjectDao projectDao;
+    @Autowired UserSessionBean userSessionBean;
+    @Autowired ReportDownloadExcelDAO reportDownloadExcelDAO; 
+
     
     private static final Logger LOG = LoggerFactory.getLogger(DownloadController.class);
 
@@ -140,6 +149,64 @@ public class DownloadController {
             filename=filename.replaceAll(" ", "_");
             response.setHeader("Content-Disposition", "attachment; filename="+filename);
             downloadService.writeToWorkBookOfProgressReport(workbook, prcls);
+
+        } catch (IOException e) {
+           LOG.error("error on excel dwnload", e);
+        } finally {
+            try {
+                out.flush();
+                workbook.write();
+                workbook.close();
+                out.close();
+            } catch (IOException e) {
+                LOG.error("Exception Closing stream :", e);
+            } catch (WriteException e) {
+                LOG.error("Exception Closing workbook :", e);
+            }
+        }
+    }
+    
+    @RequestMapping(value = URLMap.PROJECT_LIST, method = RequestMethod.POST)
+    public void downloadExcelProjectList(HttpServletRequest request, HttpServletResponse response) {
+        
+        SqlRowSet srs=reportDownloadExcelDAO.getAllProjectForExcelDownload(userSessionBean.getUserId(),userSessionBean.getRoleId());
+        ServletOutputStream out = null;
+        WritableWorkbook workbook = null;
+        try {
+            out = response.getOutputStream();
+            workbook = Workbook.createWorkbook(out);
+            response.setContentType("application/vnd.ms-excel");
+            response.setHeader("Content-Disposition", "attachment; filename=ProjectList.xls");
+            downloadService.writeToWorkBookFromSqlRowSet(workbook,srs);
+
+        } catch (IOException e) {
+           LOG.error("error on excel dwnload", e);
+        } finally {
+            try {
+                out.flush();
+                workbook.write();
+                workbook.close();
+                out.close();
+            } catch (IOException e) {
+                LOG.error("Exception Closing stream :", e);
+            } catch (WriteException e) {
+                LOG.error("Exception Closing workbook :", e);
+            }
+        }
+    }
+       
+    @RequestMapping(value = URLMap.USER_LIST, method = RequestMethod.POST)
+    public void downloadExcelUsersList(HttpServletRequest request, HttpServletResponse response) {
+
+        SqlRowSet srs=userDao.getAllUsersForExcelDownload();
+        ServletOutputStream out = null;
+        WritableWorkbook workbook = null;
+        try {
+            out = response.getOutputStream();
+            workbook = Workbook.createWorkbook(out);
+            response.setContentType("application/vnd.ms-excel");
+            response.setHeader("Content-Disposition", "attachment; filename=EmployeeList.xls");
+            downloadService.writeToWorkBookFromSqlRowSet(workbook,srs);
 
         } catch (IOException e) {
            LOG.error("error on excel dwnload", e);

@@ -76,7 +76,17 @@
                  });
                  $("#modal-win form .datepicker_doj").datepicker();
                  $("#modal-win form .datepicker_lwd").datepicker();
-                 
+                 $("#baseRate")
+                  .focusout(function() {
+                   if($("#baseRate").val().trim()!=null){
+                       if($("#superRate").val().trim()!=null){
+                       var rateperhour=parseFloat($("#baseRate").val().trim())+(($("#s2id_superRate").text().trim()*$("#baseRate").val().trim())/100);
+                        if(!isNaN(rateperhour))                
+                        $("#modal-win #rateperhour").val(rateperhour);
+                       }
+                   }
+                   });
+                   
                   if(data!=null){ 
                       
                   var doj=new Date(data.doj);
@@ -86,8 +96,7 @@
                   var dob=new Date(data.dob);
                   dob=dob.getDate()+"/"+dob.getMonth()+"/"+dob.getFullYear();
                       
-                  $("#modal-win #empno").val(data.empno)
-                  .prop("disabled",true);
+                  $("#modal-win #empno").val(data.empno);//.prop("disabled",true);
                   $("#modal-win #fname").val(data.fname);
                   $("#modal-win #mname").val(data.mname);
                   $("#modal-win #lname").val(data.lname);
@@ -112,7 +121,11 @@
                   $("#modal-win #accountno").val(data.accountno);
                   $("#modal-win #bsbno").val(data.bsbno);
                   $("#modal-win #spousename").val(data.spousename);
-                  //$("#modal-win #rateperhour").val(data.baseRate + data.superRate);                  
+                  if(data.baseRate!=null && $("#s2id_superRate").text().trim()!=null){
+                       var rateperhour=(data.baseRate+(data.superRateVal*data.baseRate)/100);
+                        if(!isNaN(rateperhour))                
+                        $("#modal-win #rateperhour").val(rateperhour);
+                  }
                   };
                   $("#modal-win #superRate").change(function() {
                         var obj=$("#modal-win #superRate");
@@ -120,6 +133,8 @@
                         var rateperhour=parseFloat(brobj.val().trim())+(($("#s2id_superRate").text().trim()*brobj.val().trim())/100);
                         $("#modal-win #rateperhour").val(rateperhour);
                   });
+                  
+                  
             });
             
             $("#modal-win").dialog({
@@ -250,19 +265,8 @@
             });
     }    
     self.User = function(){
-        dataTable=$("#user-grid").dataTable({
-  //            'dom':'<"toolbar">frtip',
-//            "info": false,
-            "scrollY": "1px",
-            "bLengthChange": false,
-//            //"bFilter": false,
-            "bPaginate": false,
-//            "bAutoWidth":true,
-            "ajax": {
-                url:"service/user",
-                "type": "GET"
-            },
-            "columns": [
+        
+        var columns=[
             {
                 "data":'userId',
                 "visible":false
@@ -351,11 +355,26 @@
                 title:"Role",
                 width:'15%'
             }         
-            ]
+            ];
+        
+        dataTable=$("#user-grid").dataTable({
+  //            'dom':'<"toolbar">frtip',
+//            "info": false,
+            "scrollY": "1px",
+            "bLengthChange": false,
+//            //"bFilter": false,
+            "bPaginate": false,
+//            "bAutoWidth":true,
+            "ajax": {
+                url:"service/user",
+                "type": "GET"
+            },
+            "columns": columns
         });
         var toolbar = "<button id='addUser'><span>Add</span></button>"+
             "<button id='editUser'><span>Edit</span></button>"+
             "<button id='delUser'><span>Delete</span></button>"+
+            "<button id='downloadUList'><span>User List</span></button>"+
             "<div class='separator'></div>"+
             "<button id='changePass'><span>Change Password</span></button>"+
             "<button id='disableUsr'><span>Deactivate Account</span></button>"+
@@ -503,6 +522,9 @@
             }
            }  // End of Else
            });
+        $('#downloadUList').button().on('click', function(){
+           downloadUserListExcel(columns,dataTable.fnGetData());
+        });           
            fitToParent(dataTable);
     };
 })(this);

@@ -228,41 +228,7 @@ window.projectdet1=null;
         });
     }
     self.Proect = function(){
-       
-       dataTable=$("#project-grid").dataTable({
-            //            'dom':'<"toolbar">frtip',
-            //            "info": false,
-            "scrollY": "1px",
-            "bLengthChange": false,
-            //            //"bFilter": false,
-            //            "bPaginate": false,
-            //            "bAutoWidth":true,
-            "fnRowCallback": function( nRow, aData ) {
-                var status = aData.projectStatus; 
-                var $nRow = $(nRow); 
-                if (status == '601') {
-                  $nRow.css({"background-color":"#FFF380"});//
-                }
-                else if (status == '602'){
-                  $nRow.css({"background-color":"#8bccf0"});
-                }
-                else if (status == '603'){
-                  $nRow.css({"background-color":"yellowgreen"});
-                }
-                else if (status == '604'){
-                  $nRow.css({"background-color":"#FFF380"});
-                }
-                else if (status == '605'){
-                  $nRow.css({"background-color":"#87AFC7"});
-                }
-                
-                return nRow
-              },
-            "ajax": {
-                url:"service/project",
-                "type": "GET"
-            },
-            "columns": [{
+       var columns=[{
                 "data": 'projectName',
                 title:"Name",
                 render:function(val){
@@ -337,12 +303,47 @@ window.projectdet1=null;
                  else
                    return "<b>"+val+"</b>";  
             }
-            }]
+            }];
+       dataTable=$("#project-grid").dataTable({
+            //            'dom':'<"toolbar">frtip',
+            //            "info": false,
+            "scrollY": "1px",
+            "bLengthChange": false,
+            //            //"bFilter": false,
+            //            "bPaginate": false,
+            //            "bAutoWidth":true,
+            "fnRowCallback": function( nRow, aData ) {
+                var status = aData.projectStatus; 
+                var $nRow = $(nRow); 
+                if (status == '601') {
+                  $nRow.css({"background-color":"#FFF380"});//
+                }
+                else if (status == '602'){
+                  $nRow.css({"background-color":"#8bccf0"});
+                }
+                else if (status == '603'){
+                  $nRow.css({"background-color":"yellowgreen"});
+                }
+                else if (status == '604'){
+                  $nRow.css({"background-color":"#FFF380"});
+                }
+                else if (status == '605'){
+                  $nRow.css({"background-color":"#87AFC7"});
+                }
+                
+                return nRow
+              },
+            "ajax": {
+                url:"service/project",
+                "type": "GET"
+            },
+            "columns":columns 
         });
        dataTable_= dataTable;
         var toolbar = "<button id='addProject'><span>Add</span></button>"+
         "<button id='editProject'><span>Edit</span></button>"+
         "<button id='delProject'><span>Delete</span></button>"+
+        "<button id='downloadProjectList'><span>Project-List</span></button>"+
         "<div class='separator'></div>"+
         "<button id='viewProject'><span>View Details</span></button>"+
         "<div class='dropdown' style='display:inline;'>"+
@@ -400,7 +401,7 @@ window.projectdet1=null;
             if(tr.length==0){
                 jQuery.MsgBox.show({
                         title:'Warning',
-                        msg :'Please select the Porject from Grid to Delete',
+                        msg :'Please select the Project from Grid to Delete',
                         icon:4,
                         width:400
                 });
@@ -471,6 +472,17 @@ window.projectdet1=null;
              });
         }).next().hide().menu()
         .find("li").on('click', function(){
+            
+            var tr = dataTable.find('tr.row-selected');
+            if(tr.length==0){
+                jQuery.MsgBox.show({
+                        title:'Warning',
+                        msg :'Please select the Project from Grid to Delete',
+                        icon:4,
+                        width:400
+                });
+                
+            }else {
             var reportName =$(this).text();
             if(reportName=='PMU')
             {
@@ -500,6 +512,7 @@ window.projectdet1=null;
                         width:400
               }); 
             }
+        }  
         });
         $('#resrceProj').button({
            
@@ -551,6 +564,12 @@ window.projectdet1=null;
                         width:400
                 });
         });
+        $('#downloadProjectList').button().on('click', function(){
+            
+           downloadProjectListExcel(columns,dataTable.fnGetData());
+           
+        });
+        
         //load project data
         
     };	

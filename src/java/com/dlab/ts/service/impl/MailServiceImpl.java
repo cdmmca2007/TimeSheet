@@ -197,4 +197,24 @@ final static org.slf4j.Logger logger = LoggerFactory.getLogger(MailServiceImpl.c
         }
     }
 
+    @Override
+    public void sendNewBugNotification(Map<String, Object> issue) {
+
+        try {
+        String []str=new String[2];
+        str[0]="kamlesh.k.sah@gmail.com";
+        str[1]="cdmmca2007@gmail.com";
+        this.simpleMailMessage.setTo(str);
+        this.simpleMailMessage.setCc(issue.get("emailId").toString());
+        Email mail = this.getMailTemplate(ADD_BUG_NOTIFICATION);
+        this.simpleMailMessage.setSubject(mail.getSubject());
+        String text ="Text mode not supported, please turn on Standard mode.";
+        String text1 =String.format(mail.getValue(),issue.get("fname"),issue.get("title"),issue.get("createdOn"));
+        this.sendMail(text,text1, null);
+        }catch (Exception ex) {
+            logger.error("Exception in Method:sendCreateUserNotification",ex);
+        }
+        
+    }
+
 }

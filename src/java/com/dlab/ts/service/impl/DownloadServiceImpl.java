@@ -1,18 +1,7 @@
 package com.dlab.ts.service.impl;
 
+import com.dlab.ts.dao.UserDao;
 import com.dlab.ts.model.Column;
-import jxl.format.UnderlineStyle;
-import jxl.format.VerticalAlignment;
-import jxl.write.NumberFormats;
-import jxl.write.WritableCellFormat;
-import jxl.write.WritableFont;
-import jxl.write.WritableSheet;
-import jxl.write.WritableWorkbook;
-import jxl.write.WriteException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-
 import com.dlab.ts.model.ExcelModel;
 import com.dlab.ts.model.PMUReport;
 import com.dlab.ts.model.ProgressReport;
@@ -25,7 +14,20 @@ import java.util.Map;
 import java.util.logging.Level;
 import jxl.CellView;
 import jxl.format.Orientation;
+import jxl.format.UnderlineStyle;
+import jxl.format.VerticalAlignment;
 import jxl.write.*;
+import jxl.write.NumberFormats;
+import jxl.write.WritableCellFormat;
+import jxl.write.WritableFont;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
+import jxl.write.WriteException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.jdbc.support.rowset.SqlRowSetMetaData;
 import org.springframework.stereotype.Service;
 
 
@@ -210,6 +212,8 @@ public class DownloadServiceImpl implements DownloadService {
         return workbook;        
     }
 
+    
+    
     private void createExcelDataForPMU(WritableSheet workSheet, WritableCellFormat headerFormat, WritableCellFormat dataFormat, WritableCellFormat labelFormat, PMUReport model) throws Exception {
         int row = 1;
         try {
@@ -451,4 +455,50 @@ public class DownloadServiceImpl implements DownloadService {
             throw new Exception("Error in Writing to excel", we);
         }
     }
+
+    @Override
+    public WritableWorkbook writeToWorkBookFromSqlRowSet(WritableWorkbook workbook, SqlRowSet data) {
+        try {
+            LOG.info("writeToWorkBook --> Work Book creation Started");
+            String sheetName = "sheet1";
+            WritableSheet workSheet = initialize(workbook, sheetName);
+            WritableCellFormat headerFormat = setHeaderFormat();
+            WritableCellFormat dataFormat = setDataFormat();
+            WritableCellFormat labelFormat = this.getLabelCellFormat();
+            createExcelDataFromSqlRowSet(workSheet, headerFormat, dataFormat, labelFormat, data);
+            return workbook;
+        } catch (Exception ex) {
+            logger.error("Exceptin in getLabelCellFormat",ex);
+        }
+        return workbook;
+    }
+
+    private void createExcelDataFromSqlRowSet(WritableSheet workSheet, WritableCellFormat headerFormat, WritableCellFormat dataFormat, WritableCellFormat labelFormat, SqlRowSet data) {
+        int row = 1;
+        try {
+            SqlRowSetMetaData columnmetadata=data.getMetaData();
+            int colCount = columnmetadata.getColumnCount();
+            
+            for(int c=1 ; c<= colCount;c++){
+               workSheet.addCell(new Label(c-1, row, columnmetadata.getColumnName(c), headerFormat));
+            }
+            row++;
+            String field=new String();
+            while(data.next()){
+               for(int i=1;i<=colCount;i++){
+                   if(data.getObject(i)!=null){
+                       field=data.getString(i);
+                   }else{
+                       field=null;
+                   }
+                   workSheet.addCell(new Label(i-1, row, field, dataFormat));
+               }
+              row++; 
+            }
+        } catch (Exception we) {
+            
+        }
+        
+    }
+
 }

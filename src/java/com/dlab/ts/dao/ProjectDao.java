@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 @Repository("projectDao")
@@ -330,5 +331,24 @@ public class ProjectDao extends AbstractSimpleDao implements InitializingBean{
         progrep.setActivitysumlist(al);
         return progrep;
     }
+
+    /*Moving This method to UserDao due to this.jdbcTemplate.queryForRowSet not support
+      for AbstractSimpleDao
+    */
+    /*
+    public SqlRowSet getAllProjectForExcelDownload(String userid,int roleid) {
+
+        String query = this.sqlQueries.getProperty("GET_PROJECTS");
+        if(roleid==1){
+        return this.jdbcTemplate.queryForRowSet(query,new HashMap());
+        }else{
+        query=query+" AND p.projectmanagerid=:projectmanagerid";    
+        Map<String, Object> model=new HashMap();
+        model.put("projectmanagerid", userid);
+        return this.jdbcTemplate.queryForRowSet(query,model);
+    }
+    }
+    */
    
-}
+
+}    

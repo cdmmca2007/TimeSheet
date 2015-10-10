@@ -42,12 +42,15 @@ public interface URLMap {
     String TIMESHEET_GENERATE="/timesheet/add";
     String GETALL_TIMESHEET_REPORT="/timesheet/mainreport";
     String MGR_TIMESHEET_GETALL = "manager/timesheet/getall";
-      
     String ADD_EMAIL=""  ;
     String GET_EMAIL=""  ;
     String EXCEL="/download"  ; 
     String EXCEL_REPORT_1="/downloadPMU";
     String EXCEL_REPORT_3="/downloadPR";
-      
+    String PROJECT_LIST="/downloadProjectList";
+    String USER_LIST="/downloadUserList";
+    
+    
+    String ADD_BUG="/bug";
 }
 

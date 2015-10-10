@@ -695,9 +695,6 @@ font-family: "Helvetica Neue", Arial, Verdana
 .fg-toolbar.ui-toolbar.ui-widget-header.ui-corner-bl{
     border-style: solid none  solid none;
 }
-.dataTables_paginate .fg-button.ui-button{
-    margin-right: 0;
-}
 .row-selected td{
 border-style: dotted;
 border-color: #a3bae9;

@@ -1,0 +1,33 @@
+<div id="dialog-form-addbug" class="addbug-form">
+    <div class="form-top-panel">
+        <p class="validateTips"><span class="required_show">*</span> indicates fields are required.</p>
+    </div>
+        <div class="form-view">
+	<form>
+            <div class="form-item" data-option="{'required':true}">
+                    <div class="form-label"><label>Issue Title</label><span class="required_show">*</span></div>
+                    <div class="form-value"><input type="text" id="projectName" name="title" class="text" /></div>
+            </div>
+            <div class="form-item">
+                <div class="form-label"><label>Select Priority</label><span class="required_show">*</span></div>
+                <div class="form-value">
+                    <input type="text" id="bugpriority" name="bugpriority" class="ui-widget-content" />
+                </div>
+            </div>
+            <div class="form-item">
+                    <div class="form-label"><label>Description</label><span class="required_show">*</span></div>
+                    <div class="form-value"><textarea id="description" name="description"  class="textarea" ></textarea></div>
+            </div>
+            <div class="form-item">
+                    <div class="form-label"><label>Expected Functionality</label><span class="required_show">*</span></div>
+                    <div class="form-value"><textarea id="expected" name="expected"  class="textarea" ></textarea></div>
+            </div>
+            <div class="form-item">
+                <div class="form-label"><label>Select Status</label><span class="required_show">*</span></div>
+                <div class="form-value">
+                    <input type="text" id="bugstatus" name="bugstatus" class="ui-widget-content" />
+                </div>
+            </div>
+	</form>
+        </div>
+</div>

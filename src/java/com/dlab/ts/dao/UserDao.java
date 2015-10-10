@@ -16,6 +16,7 @@ import java.sql.SQLException;
 import java.util.*;
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -35,6 +36,12 @@ public class UserDao  extends AbstractNamedDao{
        	String query = this.sqlQueries.getProperty("GET_USERS");
 	System.out.println("query:"+query);
         return this.jdbcTemplate.queryForList(query, new HashMap());
+   }
+   
+   public SqlRowSet getAllUsersForExcelDownload() {
+       	String query = this.sqlQueries.getProperty("GET_USER_LIST_FOR_EXCEL_DATA");
+	System.out.println("query:"+query);
+        return this.jdbcTemplate.queryForRowSet(query, new HashMap());
    }
    
     public int addUser(Map<String, Object> user)  {

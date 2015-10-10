@@ -19,7 +19,7 @@
         '<td class="td-hours" data-col="fri"><input type="text" data-column="fri" class="fri hours" /></td>'+
         '<td class="td-hours" data-col="sat" ><input type="text" data-column="sat" class="sat hours" /></td>'+
         '<td class="td-hours" data-col="sun" ><input type="text" data-column="sun" class="sun hours" /></td>'+
-        '<td class=" sum-row" data-col="sum-row">0</td>'+
+        '<td class="sum-row" data-col="sum-row">0</td>'+
     ' </tr>'
     var mgrTpl = '<tr class="search_main_tr">'+
     '<td><input name"p" class="button_manage_s select1 proj-drop-down"></td>'+
@@ -33,7 +33,7 @@
     '<td  class="td-hours" data-col="fri"><input type="text" data-column="fri" class="fri hours" /></td>'+
     '<td  class="td-hours" data-col="sat" ><input type="text" data-column="sat" class="sat hours" /></td>'+
     '<td  class="td-hours" data-col="sun" ><input type="text" data-column="sun" class="sun hours" /></td>'+
-    '<td  sum-row" data-col="sum-row">0</td>'+
+    '<td  class="sum-row" data-col="sum-row">0</td>'+
     ' </tr>'
    var actionTpl = "<div class='actionTpl ui-widget-content'>"+
        '<div><span class="action-label">Action:</span><span class="user-action value"></span></div>'+
@@ -110,7 +110,7 @@
         $.each($tr.find('.hours'), function(i,item){
                var v=$(item).val()
                if(v){
-                   sum = sum+parseInt($(item).val());   
+                   sum = sum+parseFloat($(item).val());   
                }
            })
             $tr.find('.sum-row').text(sum);
@@ -200,7 +200,7 @@
                   if(isNaN(v)){
                        $(this).addClass("invalid");
                    }else{
-                       total = total+parseInt(v);
+                       total = total+parseFloat(v);
                    } 
                }
            })
@@ -212,7 +212,7 @@
                    if(isNaN(v)){
                        $(this).addClass("invalid");
                    }else{
-                      sum = sum+parseInt($(item).val()); 
+                      sum = sum+parseFloat($(item).val()); 
                    }
                    
                }
@@ -224,7 +224,7 @@
         $.each($tsEditor.find(".sum-row"), function(i,item){
                var v = $(item).text();
                if(v){
-                  sum_total = sum_total+parseInt(v); 
+                  sum_total = sum_total+parseFloat(v); 
                }
            })
            $tsEditor.find('.all-total').text(sum_total);
@@ -313,7 +313,7 @@
            $.each($el.find(selector), function(i,item){
                var v = $(item).val();
                if(v){
-                  total = total+parseInt(v); 
+                  total = total+parseFloat(v); 
                }
            })
            $el.find('.'+arr[i]+"-total").text(total);
@@ -324,7 +324,7 @@
         $.each($el.find(".sum-row"), function(i,item){
                var v = $(item).text();
                if(v){
-                  sum_total = sum_total+parseInt(v); 
+                  sum_total = sum_total+parseFloat(v); 
                }
            })
            $el.find('.all-total').text(sum_total);
